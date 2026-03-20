@@ -2,6 +2,8 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
+const BASE_URL = "https://cms-backend-q3gj.onrender.com";
+
 export default function AdminPage() {
   const [users, setUsers] = useState([]);
   const [form, setForm] = useState({ name: "", email: "", password: "" });
@@ -36,7 +38,7 @@ export default function AdminPage() {
   const fetchUsers = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:5000/api/admin/pending-users", {
+      const res = await fetch(`${BASE_URL}/api/admin/pending-users`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -51,7 +53,7 @@ export default function AdminPage() {
   const approveUser = async (id, name) => {
     setActionLoading((p) => ({ ...p, [id]: "approve" }));
     try {
-      await fetch(`http://localhost:5000/api/admin/approve/${id}`, {
+      await fetch(`${BASE_URL}/api/admin/approve/${id}`, {
         method: "PUT",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -67,7 +69,7 @@ export default function AdminPage() {
   const rejectUser = async (id, name) => {
     setActionLoading((p) => ({ ...p, [id]: "reject" }));
     try {
-      await fetch(`http://localhost:5000/api/admin/reject/${id}`, {
+      await fetch(`${BASE_URL}/api/admin/reject/${id}`, {
         method: "PUT",
         headers: { Authorization: `Bearer ${token}` },
       });
@@ -84,7 +86,7 @@ export default function AdminPage() {
     e.preventDefault();
     setTeacherLoading(true);
     try {
-      await fetch("http://localhost:5000/api/admin/create-teacher", {
+      await fetch(`${BASE_URL}/api/admin/create-teacher`, {
         method: "POST",
         headers: { "Content-Type": "application/json", Authorization: `Bearer ${token}` },
         body: JSON.stringify(form),
